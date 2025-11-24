@@ -1,8 +1,11 @@
 package com.aiko.orchestrator.controller;
 
+import com.aiko.orchestrator.annotation.RateLimit;
 import com.aiko.orchestrator.dto.QueryRequest;
 import com.aiko.orchestrator.dto.QueryResponse;
 import com.aiko.orchestrator.service.QueryService;
+import com.aiko.orchestrator.annotation.RateLimit;
+import com.aiko.orchestrator.ratelimit.RateLimitConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,8 @@ public class QueryController {
     
     @PostMapping("/submit")
     @Operation(summary = "Submit a new query for AI processing")
+    @RateLimit(capacity = 50, refillPeriodSeconds = 60, keyType = RateLimit.RateLimitKeyType.IP, errorMessage = "Too many queries. Please wait before submitting more.")
+
     public ResponseEntity<QueryResponse> submitQuery(@Valid @RequestBody QueryRequest request) {
         QueryResponse response = queryService.submitQuery(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

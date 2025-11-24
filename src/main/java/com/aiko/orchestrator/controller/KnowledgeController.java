@@ -1,5 +1,6 @@
 package com.aiko.orchestrator.controller;
 
+import com.aiko.orchestrator.annotation.RateLimit;
 import com.aiko.orchestrator.model.Knowledge;
 import com.aiko.orchestrator.service.KnowledgeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,8 @@ public class KnowledgeController {
     
     @PostMapping("/upload")
     @Operation(summary = "Upload a document to the knowledge base")
+    @RateLimit(capacity = 10, refillPeriodSeconds = 60, keyType = RateLimit.RateLimitKeyType.IP, errorMessage = "Upload limit exceeded. Please wait before uploading more documents.")
+
     public ResponseEntity<Knowledge> uploadDocument(
             @RequestParam("file") MultipartFile file,
             @RequestParam("title") String title,
@@ -34,6 +37,7 @@ public class KnowledgeController {
     
     @GetMapping("/search")
     @Operation(summary = "Search the knowledge base")
+    @RateLimit(capacity = 30, refillPeriodSeconds = 60, keyType = RateLimit.RateLimitKeyType.IP, errorMessage = "Too many search requests. Please wait before searching again.")
     public ResponseEntity<List<Knowledge>> searchKnowledge(
             @RequestParam String query,
             @RequestParam(defaultValue = "10") int limit) {
