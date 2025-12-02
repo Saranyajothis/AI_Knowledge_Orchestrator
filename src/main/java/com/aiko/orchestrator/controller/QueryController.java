@@ -4,8 +4,6 @@ import com.aiko.orchestrator.annotation.RateLimit;
 import com.aiko.orchestrator.dto.QueryRequest;
 import com.aiko.orchestrator.dto.QueryResponse;
 import com.aiko.orchestrator.service.QueryService;
-import com.aiko.orchestrator.annotation.RateLimit;
-import com.aiko.orchestrator.ratelimit.RateLimitConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/queries")
 @RequiredArgsConstructor
-@Tag(name = "Query Management", description = "Endpoints for managing AI queries")
+@Tag(name = "Query Management Controller", description = "Endpoints for managing AI queries")
 public class QueryController {
     
     private final QueryService queryService;
