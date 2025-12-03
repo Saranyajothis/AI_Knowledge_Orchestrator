@@ -31,3 +31,17 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Python env and caches
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment / secrets
+.env
+
+# OS / editor files (safe defaults)
+.DS_Store
+.vscode/
+.idea/
